@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Static analysis') {
               steps {
-                #sh 'cppcheck --xml --xml-version=2 /var/lib/jenkins/workspace/Sudoku_in_terminal 2> cppcheck.xml'
+                //sh 'cppcheck --xml --xml-version=2 /var/lib/jenkins/workspace/Sudoku_in_terminal 2> cppcheck.xml'
                 sh 'cppcheck --enable=all --inconclusive --xml --xml-version=2 /var/lib/jenkins/workspace/Sudoku_in_terminal 2> cppcheck.xml' 
                 sh 'cppcheck-htmlreport --file=cppcheck.xml --report-dir=html_cppcheck --source-dir=.'
                 publishHTML ([       
