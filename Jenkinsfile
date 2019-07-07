@@ -1,9 +1,9 @@
 pipeline {
     agent any 
     stages {
-        stage('Static analysis) {
+        stage('Static analysis') {
               steps {
-                sh 'cppcheck --xml --xml-version=2 SOURCE_DIRECTORY 2> cppcheck.xml'
+                sh 'cppcheck --xml --xml-version=2 /var/lib/jenkins/workspace/Sudoku_in_terminal 2> cppcheck.xml'
               }
         }
         stage('Build') { 
