@@ -47,11 +47,6 @@ void sudoku_draw_board(Sudoku *self){
     internal_draw_board((self->board));
 }
 
-void sudoku_draw_finished_board(Sudoku *self){
-    internal_draw_board((self->finished_board));
-}
-
-
 int main(){
     internal_clearterminal();
     srand(time(NULL));
@@ -60,7 +55,7 @@ int main(){
 
     while (input_int == 0){
         printf("Input 1 to play or 2 to solve a sudoku: ");
-        scanf("%d", &input_int);
+        scanf("%u", &input_int);
         if (input_int > 2 || input_int < 1){
             input_int = 0;
         }
@@ -71,7 +66,7 @@ int main(){
             input_int = 10;
             while (input_int > 9) {
                 printf("Input the sudoku board. 0 is for empty spot. column=%d row=%d: ",(i%9) + 1, (i/9) + 1);
-                scanf("%d", &input_int);
+                scanf("%u", &input_int);
             }
             a.board[i] = input_int;
         }
@@ -83,26 +78,23 @@ int main(){
     input_int = 0;
     while (input_int == 0){
         printf("Input a difficult level between 10 and 50: ");
-        scanf("%d", &input_int);
+        scanf("%u", &input_int);
         if (input_int > 50 || input_int < 10){
             input_int = 0;
         }
     }
     sudoku_generate_board(&a, input_int);
     internal_clearterminal();
-
-    int play = 0;
-    int ok_input = 0;
+   
     while (sudoku_check_for_win(&a) != 1){
-        input_int = 0;
-        play = 0;
+        int input_int = 0;
         ok_input = 0;
         internal_clearterminal();
 
         while (ok_input == 0){
             sudoku_draw_board(&a);
             printf("Input column row number(ddd): ");
-            scanf("%d", &input_int);
+            scanf("%u", &input_int);
 
             if (input_int/1000 == 0){
                 if (input_int/100 != 0){
