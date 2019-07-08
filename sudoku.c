@@ -280,11 +280,10 @@ int internal_sudoku_remove_one_number_frome_square(Sudoku *self, int square){
 
 void internal_sudoku_generate_board(Sudoku *self, int diffeculty){
     int square_where_no_number_left_to_posible_remove[] = {1,1,1,1,1,1,1,1,1};
-    int squares_left = 9;
-    int square_with_number_posible_to_remove = false;    
+    int squares_left = 9;    
     int random_number_of_number_to_remove = diffeculty + rand()%6;
     for (int i = 0; i < random_number_of_number_to_remove; i++){
-        square_with_number_posible_to_remove = false;
+        int square_with_number_posible_to_remove = false;
         int random_square = rand()%9;
         while (square_with_number_posible_to_remove == false){
             random_square += 1;
