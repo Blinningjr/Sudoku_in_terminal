@@ -88,7 +88,7 @@ int main(){
    
     while (sudoku_check_for_win(&a) != 1){
         int input_int = 0;
-        ok_input = 0;
+        int ok_input = 0;
         internal_clearterminal();
 
         while (ok_input == 0){
