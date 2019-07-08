@@ -141,11 +141,6 @@ void internal_sudoku_generate_finished_board(Sudoku *self){
 
     // insert rows with one ut of the 9 number.
     for (int k = 0; k < 9; k++){
-        int valid_spots[81];
-        for (int i = 0; i < 81; i++){
-            valid_spots[i] = 0;
-        }
-        
         for (int i = 0; i < 9; i++){
             int numbers[] = {1,2,3,4,5,6,7,8,9};
             int end = 8;
@@ -239,11 +234,12 @@ int internal_sudoku_remove_one_number_frome_square(Sudoku *self, int square){
     }
 
     for (int i = 0; i < 9; i++){
-        int ok_to_remove = true;
+        
         pos = (square%3) * 3 + (square/3) * 27 + (i%3) + (i/3) * 9;
         int number_to_remove = self->board[pos];
         self->board[pos] = 0;
         if(number_to_remove != 0) {    
+           int ok_to_remove = true;
                 for (int j = 0; j < square_empty_pos_length; j++){
                     int not_posibole_to_be_placed = true;
                     for (int k = 0; k < 9; k++){
@@ -286,11 +282,10 @@ void internal_sudoku_generate_board(Sudoku *self, int diffeculty){
     int square_where_no_number_left_to_posible_remove[] = {1,1,1,1,1,1,1,1,1};
     int squares_left = 9;
     int square_with_number_posible_to_remove = false;    
-    int random_square = 0;
     int random_number_of_number_to_remove = diffeculty + rand()%6;
     for (int i = 0; i < random_number_of_number_to_remove; i++){
         square_with_number_posible_to_remove = false;
-        random_square = rand()%9;
+        int random_square = rand()%9;
         while (square_with_number_posible_to_remove == false){
             random_square += 1;
             if (random_square > 8){
@@ -312,11 +307,10 @@ void internal_sudoku_generate_board(Sudoku *self, int diffeculty){
 
 int internal_sudoku_fill_square(Sudoku *self, int empty_pos){
     int square = (empty_pos%9)/3 + ((empty_pos/9)/3)  * 3;
-    int pos = 0;
     int numbers_not_missing[] = {0,0,0,0,0,0,0,0,0};
     int numbers_not_missing_length = 0;
     for (int i = 0; i < 9; i++){
-        pos = (square%3) * 3 + (square/3) * 27 + (i%3) + (i/3) * 9;
+        int pos = (square%3) * 3 + (square/3) * 27 + (i%3) + (i/3) * 9;
         if (self->board[pos] != 0) {
             numbers_not_missing[self->board[pos] - 1] = 1;
             numbers_not_missing_length += 1;
@@ -335,11 +329,10 @@ int internal_sudoku_fill_square(Sudoku *self, int empty_pos){
 
 int internal_sudoku_fill_row(Sudoku *self, int empty_pos){
     int row = empty_pos/9;
-    int pos = 0;
     int numbers_not_missing[] = {0,0,0,0,0,0,0,0,0};
     int numbers_not_missing_length = 0;
     for (int i = 0; i < 9; i++){
-        pos = row * 9 + i;
+        int pos = row * 9 + i;
         if (self->board[pos] != 0) {
             numbers_not_missing[self->board[pos] - 1] = 1;
             numbers_not_missing_length += 1;
@@ -358,11 +351,10 @@ int internal_sudoku_fill_row(Sudoku *self, int empty_pos){
 
 int internal_sudoku_fill_column(Sudoku *self, int empty_pos){
     int column = empty_pos%9;
-    int pos = 0;
     int numbers_not_missing[] = {0,0,0,0,0,0,0,0,0};
     int numbers_not_missing_length = 0;
     for (int i = 0; i < 9; i++){
-        pos = column + i * 9;
+        int pos = column + i * 9;
         if (self->board[pos] != 0) {
             numbers_not_missing[self->board[pos] - 1] = 1;
             numbers_not_missing_length += 1;
@@ -403,11 +395,9 @@ int internal_sudoku_fill_by_elimination(Sudoku *self, int empty_pos){
             numbers_not_missing_length += 1;
         }
     }
-    int found_valid_number = true;
-    int missing_number = 0;
     for (int i = 0; i < numbers_not_missing_length; i++){
-        missing_number = numbers_not_missing[i];
-        found_valid_number = true;
+        int missing_number = numbers_not_missing[i];
+        int found_valid_number = true;
         for (int j = 0; j < empty_positions_length; j++){
             pos = empty_positions[j];
             if (internal_check_column(self->board, pos%9, missing_number) == false) {
@@ -490,8 +480,8 @@ int sudoku_check_for_win(Sudoku *self){
             int save = self->board[i * 9 + j];
             self->board[i * 9 + j] = 0;
             if (internal_check_if_placment_is_valid(self->board, j, i, save) == false) {
-                return false;
-                self->board[i * 9 + j] = save;
+               self->board[i * 9 + j] = save; // might be cause a bug
+               return false;
             }
             self->board[i * 9 + j] = save;
         }
